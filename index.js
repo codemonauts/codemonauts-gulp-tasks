@@ -34,9 +34,7 @@ const sassFilter = function (file) {
 };
 
 function pug(source, destination='../templates') {
-    // File extension is needed because gulp-pug can't differentiate
-    // between a file and a folder
-    return src(source, { since: lastRun('pug') })
+    return src(source, { since: lastRun(pug) })
         .pipe($.pug())
         .pipe($.rename({
             extname: ".twig"
