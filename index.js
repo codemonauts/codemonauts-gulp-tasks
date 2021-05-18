@@ -39,7 +39,7 @@ function pug(source, destination='../templates') {
         .pipe($.rename({
             extname: ".twig"
         }))
-        .pipe(dest(dest));
+        .pipe(dest(destination));
 }
 
 function sass(source, idir = '', destination='../public/css', extraPlugins) {
