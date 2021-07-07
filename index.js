@@ -42,11 +42,11 @@ function pug(source, destination='../templates') {
         .pipe(dest(destination));
 }
 
-function sass(source, idir = '', destination='../public/css', extraPlugins) {
-    plugins = extraPlugins + [
+function sass(source, idir='', destination='../public/css', extraPlugins=[]) {
+    plugins = extraPlugins.concat([
             autoprefixer(),
             isProduction ? cssnano(): false,
-    ];
+    ]);
 
     return src(source)
         .pipe($.sassInheritance({dir: idir}))
@@ -58,20 +58,20 @@ function sass(source, idir = '', destination='../public/css', extraPlugins) {
         .pipe(dest(destination));
 }
 
-function script(filename, destination='../public/js') {
+function script(scriptpath, destination='../public/js') {
     return browserify({
-        entries: 'js/' + filename,
+        entries: scriptpath,
         debug: isDevelopment()
     })
         .bundle()
         .on('error', err => {
             log.error("Browserify Error: " + err.message);
         })
-        .pipe(source(filename))
+        .pipe(source(scriptpath.split("/").pop()))
         .pipe(buffer())
         .pipe($.if(isProduction(), uglify()))
         .pipe($.sourcemaps.init({ loadMaps: true }))
-        .pipe($.sourcemaps.write('./maps'))
+        .pipe($.sourcemaps.write('../maps'))
         .pipe(dest(destination));
 }
 
@@ -81,7 +81,7 @@ function copy(from, to) {
         .pipe(dest(to))
 }
 
-function clean([dirs]){
+function clean(dirs){
     log('Clean destination directories.')
     return del(dirs, {
         force: true
