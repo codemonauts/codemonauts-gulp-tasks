@@ -1,7 +1,7 @@
 {
   "name": "codemonauts-gulp-tasks",
-  "version": "0.0.4",
-  "description": "Our Gulp tasks for CrraftCMS",
+  "version": "0.0.5",
+  "description": "Our shared Gulp tasks. Mainly for for CraftCMS",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -26,7 +26,7 @@
     "url": "https://github.com/codemonauts/codemonauts-gulp-tasks/issues"
   },
   "homepage": "https://github.com/codemonauts/codemonauts-gulp-tasks#readme",
-  "devDependencies": {
+  "dependencies": {
     "gulp-filter": "^7.0.0",
     "gulp-if": "^3.0.0",
     "gulp-load-plugins": "^2.0.7",
@@ -36,9 +36,7 @@
     "gulp-sass": "^4.1.1",
     "gulp-sass-inheritance": "git+https://github.com/codemonauts/gulp-sass-inheritance.git",
     "gulp-sourcemaps": "^3.0.0",
-    "sass": "^1.35.1"
-  },
-  "dependencies": {
+    "sass": "^1.35.1",
     "browserify": "^17.0.0",
     "cssnano": "^5.0.6",
     "del": "^6.0.0",
