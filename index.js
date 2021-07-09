@@ -12,7 +12,8 @@ const source = require("vinyl-source-stream");
 const uglify = require('gulp-uglify-es').default;
 
 // Use Dart to compile sass instead of node-sass
-$.sass.compiler = require('sass');
+var gulpSass = require('gulp-sass')(require('sass'));
+
 
 const args = require('minimist')(process.argv.slice(2), {
     string: "env",
@@ -52,7 +53,7 @@ function sass(source, idir='', destination='../public/css', extraPlugins=[]) {
         .pipe($.sassInheritance({dir: idir}))
         .pipe($.filter(sassFilter))
         .pipe($.if(isDevelopment(), $.sourcemaps.init()))
-        .pipe($.sass())
+        .pipe(gulpSass())
         .pipe($.postcss(plugins))
         .pipe($.if(isDevelopment(), $.sourcemaps.write()))
         .pipe(dest(destination));
