@@ -46,7 +46,7 @@ function pug(source, destination='../templates') {
 function sass(source, idir='', destination='../public/css', extraPlugins=[]) {
     plugins = extraPlugins.concat([
             autoprefixer(),
-            isProduction ? cssnano(): false,
+            isProduction() ? cssnano(): false,
     ]);
 
     return src(source)
