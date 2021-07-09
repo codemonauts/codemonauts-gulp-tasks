@@ -47,7 +47,7 @@ function sass(source, idir='', destination='../public/css', extraPlugins=[]) {
     plugins = extraPlugins.concat([
             autoprefixer(),
             isProduction() ? cssnano(): false,
-    ].filter(Boolean);
+    ].filter(Boolean));
 
     return src(source)
         .pipe($.sassInheritance({dir: idir}))
