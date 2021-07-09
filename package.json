@@ -1,6 +1,6 @@
 {
   "name": "codemonauts-gulp-tasks",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Our shared Gulp tasks. Mainly for for CraftCMS",
   "main": "index.js",
   "scripts": {
