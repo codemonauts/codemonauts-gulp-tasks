@@ -78,8 +78,8 @@ function script(scriptpath, destination = '../public/js') {
             log.error("Browserify Error: " + err.message);
         })
         .pipe(source(scriptpath.split("/").pop()))
-        .pipe($.if(isProduction(), $.sourcemaps.init()))
         .pipe(buffer())
+        .pipe($.if(isProduction(), $.sourcemaps.init()))
         .pipe($.if(isProduction(), uglify()))
         .pipe($.if(isProduction(), $.sourcemaps.write('./maps')))
         .pipe(dest(destination));
