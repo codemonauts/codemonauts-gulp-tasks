@@ -7,6 +7,7 @@ const browserify = require('browserify');
 const buffer = require("vinyl-buffer");
 const cssnano = require('cssnano');
 const del = require('del');
+const fs = require('fs');
 const log = require('fancy-log');
 const source = require("vinyl-source-stream");
 const uglify = require('gulp-uglify-es').default;
@@ -34,23 +35,31 @@ const sassFilter = function (file) {
     return !file.path.includes("/_")
 };
 
-function pug(source, destination='../templates') {
+function pug(source, destination = '../templates', amp = '') {
+    let withAMP = false;
+    let css = '';
+    if (amp != '') {
+        css = fs.readFileSync('../public/css/amp.css').toString();
+        withAMP = true;
+
+    }
     return src(source, { since: lastRun(pug) })
         .pipe($.pug())
+        .pipe($.if(withAMP, $.replace('<!--amp-style-->', `${css}`)))
         .pipe($.rename({
             extname: ".twig"
         }))
         .pipe(dest(destination));
 }
 
-function sass(source, idir='', destination='../public/css', extraPlugins=[]) {
+function sass(source, idir = '', destination = '../public/css', extraPlugins = []) {
     plugins = extraPlugins.concat([
-            autoprefixer(),
-            isProduction() ? cssnano(): false,
+        autoprefixer(),
+        isProduction() ? cssnano() : false,
     ].filter(Boolean));
 
     return src(source)
-        .pipe($.sassInheritance({dir: idir}))
+        .pipe($.sassInheritance({ dir: idir }))
         .pipe($.filter(sassFilter))
         .pipe($.if(isProduction(), $.sourcemaps.init()))
         .pipe(gulpSass())
@@ -59,7 +68,7 @@ function sass(source, idir='', destination='../public/css', extraPlugins=[]) {
         .pipe(dest(destination));
 }
 
-function script(scriptpath, destination='../public/js') {
+function script(scriptpath, destination = '../public/js') {
     return browserify({
         entries: scriptpath,
         debug: isDevelopment()
@@ -82,7 +91,7 @@ function copy(from, to) {
         .pipe(dest(to))
 }
 
-function clean(dirs){
+function clean(dirs) {
     log('Clean destination directories.')
     return del(dirs, {
         force: true
