@@ -52,10 +52,10 @@ function sass(source, idir='', destination='../public/css', extraPlugins=[]) {
     return src(source)
         .pipe($.sassInheritance({dir: idir}))
         .pipe($.filter(sassFilter))
-        .pipe($.if(isDevelopment(), $.sourcemaps.init()))
+        .pipe($.if(isProduction(), $.sourcemaps.init()))
         .pipe(gulpSass())
         .pipe($.postcss(plugins))
-        .pipe($.if(isDevelopment(), $.sourcemaps.write()))
+        .pipe($.if(isProduction(), $.sourcemaps.write('./maps')))
         .pipe(dest(destination));
 }
 
@@ -69,10 +69,10 @@ function script(scriptpath, destination='../public/js') {
             log.error("Browserify Error: " + err.message);
         })
         .pipe(source(scriptpath.split("/").pop()))
+        .pipe($.if(isProduction(), $.sourcemaps.init()))
         .pipe(buffer())
         .pipe($.if(isProduction(), uglify()))
-        .pipe($.sourcemaps.init({ loadMaps: true }))
-        .pipe($.sourcemaps.write('../maps'))
+        .pipe($.if(isProduction(), $.sourcemaps.write('./maps')))
         .pipe(dest(destination));
 }
 
