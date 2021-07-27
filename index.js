@@ -61,10 +61,10 @@ function sass(source, idir = '', destination = '../public/css', extraPlugins = [
     return src(source)
         .pipe($.sassInheritance({ dir: idir }))
         .pipe($.filter(sassFilter))
-        .pipe($.if(isProduction(), $.sourcemaps.init()))
+        .pipe($.sourcemaps.init())
         .pipe(gulpSass())
         .pipe($.postcss(plugins))
-        .pipe($.if(isProduction(), $.sourcemaps.write('./maps')))
+        .pipe($.sourcemaps.write('./maps'))
         .pipe(dest(destination));
 }
 
@@ -79,9 +79,9 @@ function script(scriptpath, destination = '../public/js') {
         })
         .pipe(source(scriptpath.split("/").pop()))
         .pipe(buffer())
-        .pipe($.if(isProduction(), $.sourcemaps.init()))
+        .pipe($.sourcemaps.init())
         .pipe($.if(isProduction(), uglify()))
-        .pipe($.if(isProduction(), $.sourcemaps.write('./maps')))
+        .pipe($.sourcemaps.write('./maps'))
         .pipe(dest(destination));
 }
 
