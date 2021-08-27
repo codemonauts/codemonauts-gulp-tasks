@@ -85,10 +85,24 @@ function script(scriptpath, destination = '../public/js') {
         .pipe(dest(destination));
 }
 
-
 function copy(from, to) {
+    let rename = false
+    let pathParts = []
+    let newName, destPath = ""
+
+    // Check if user provided a filename
+    if(!to.endsWith("/")){
+        pathParts = to.split("/")
+        newName = pathParts.pop()
+        destPath = pathParts.join()
+        rename = true
+    } else {
+        destPath = to
+    }
+
     return src(from)
-        .pipe(dest(to))
+        .pipe($.if(rename, $.rename(newName)))
+        .pipe(dest(destPath))
 }
 
 function clean(dirs) {
