@@ -1,7 +1,7 @@
 {
   "name": "codemonauts-gulp-tasks",
-  "version": "0.0.15",
-  "description": "Our shared Gulp tasks. Mainly for for CraftCMS",
+  "version": "0.0.16",
+  "description": "Our shared Gulp tasks. Mainly for CraftCMS",
   "main": "index.js",
   "scripts": {
     "test": "gulp -f tests/gulpfile.js default"
